@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import { navigate } from '../navigationRef';
-import { ADD_ERROR, SIGN_IN, CLEAR_ERROR } from './types';
+import { ADD_ERROR, SIGN_IN, CLEAR_ERROR, SIGN_OUT } from './types';
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -12,8 +12,20 @@ const authReducer = (state, action) => {
       return { errorMessage: '', errorMessage: action.payload }
     case CLEAR_ERROR:
       return { ...state, errorMessage: '' }
+    case SIGN_OUT:
+      return { token: null }
     default:
       return state;
+  }
+}
+
+const autoSignIn = dispatch => async () => {
+  const token = await AsyncStorage.getItem('token');
+  if (token) {
+    dispatch({ type: SIGN_IN, payload: token })
+    navigate('TrackList');
+  } else {
+    navigate('Signup');
   }
 }
 
@@ -46,14 +58,14 @@ const signin = (dispatch) => {
   }
 }
 
-const signout = (dispatch) => {
-  return ({ email, password }) => {
-
-  }
+const signout = (dispatch) => async () => {
+  await AsyncStorage.removeItem('token');
+  dispatch({ type: SIGN_OUT });
+  navigate('Signup')
 }
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, clearErrorMessage },
+  { signin, signout, signup, clearErrorMessage, autoSignIn },
   { token: null, errorMessage: '' }
 )
