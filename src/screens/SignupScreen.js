@@ -1,60 +1,30 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
-import Spacer from "../components/Spacer";
+import React, { useContext } from "react";
+import Form from '../components/Form';
 
-const SignupScreen = props => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { Context as AuthContext } from '../context/AuthContext'
+import { NavigationEvents } from "react-navigation";
 
+const SignupScreen = () => {
+  const { state, signup, clearErrorMessage } = useContext(AuthContext);
   return (
-    <View style={styles.container}>
-      <Spacer>
-        <Text style={styles.text} h3>
-          Sign Up For Tracker
-        </Text>
-      </Spacer>
-      <Input
-        autoCapitalize='none'
-        autoCorrect={false}
-        value={email}
-        onChange={setEmail}
-        labelStyle={styles.label} label="Email" />
-      <Spacer />
-      <Input
-        autoCorrect={false}
-        autoCapitalize='none'
-        value={password}
-        onChange={setPassword}
-        labelStyle={styles.label} label="Password"
-        secureTextEntry
+    <>
+      <NavigationEvents
+        onWillBlur={clearErrorMessage}
       />
-      <Spacer>
-        <Button style={{ marginTop: 60, ...styles.label }} title="Sign Up" />
-      </Spacer>
-    </View>
+      <Form
+        error={state.errorMessage}
+        headerTitle='Sign Up With Tracker'
+        buttonTitle='Sign Up'
+        linkText='You already have an account? sign in instead'
+        route='Signin'
+        onSubmit={signup}
+      />
+    </>
   );
 };
-
 SignupScreen.navigationOptions = () => {
   return {
-    header: null
+    header: null,
   };
 };
-
-const styles = StyleSheet.create({
-  label: {
-    fontFamily: "Montserrat"
-  },
-  text: {
-    fontFamily: "Montserrat",
-    textAlign: "center",
-    marginBottom: 30
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    marginBottom: 200
-  }
-});
 export default SignupScreen;

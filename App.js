@@ -11,6 +11,8 @@ import TrackListScreen from "./src/screens/TrackListScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import { setNavigator } from './src/navigationRef';
+import { View } from "react-native";
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     Signup: SignupScreen,
@@ -24,6 +26,7 @@ const switchNavigator = createSwitchNavigator({
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen
   })
+
 });
 const AppContainer = createAppContainer(switchNavigator);
 export default class App extends Component {
@@ -45,7 +48,7 @@ export default class App extends Component {
     }
     return (
       <AuthProvider>
-        <AppContainer />
+        <AppContainer ref={(navigator) => setNavigator(navigator)} />
       </AuthProvider>
     )
       ;
