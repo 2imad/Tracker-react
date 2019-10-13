@@ -11,6 +11,7 @@ import TrackListScreen from "./src/screens/TrackListScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import { Provider as LocationProvider } from './src/context/LocationContext';
 import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen'
 
@@ -49,9 +50,11 @@ export default class App extends Component {
       return <AppLoading />;
     }
     return (
-      <AuthProvider>
-        <AppContainer ref={(navigator) => setNavigator(navigator)} />
-      </AuthProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <AppContainer ref={(navigator) => setNavigator(navigator)} />
+        </AuthProvider>
+      </LocationProvider>
     )
       ;
   }
