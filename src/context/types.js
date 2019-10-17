@@ -4,3 +4,7 @@ export const SIGN_IN = "SIGN_IN";
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const SIGN_OUT = "SIGN_OUT";
 export const ADD_CURRENT_LOCATION = "ADD_CURRENT_LOCATION";
+export const START_RECORDING = "START_RECORDING";
+export const STOP_RECORDING = "STOP_RECORDING";
+export const ADD_LOCATION = "ADD_LOCATION";
+export const CHANGE_NAME = "CHANGE_NAME";

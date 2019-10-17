@@ -24,7 +24,7 @@ const Map = () => {
 }
 const styles = StyleSheet.create({
   map: {
-    height: 400
+    height: 200
   }
 })
 export default Map;
