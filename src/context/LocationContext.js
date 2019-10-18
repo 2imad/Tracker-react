@@ -1,5 +1,6 @@
 import createDataContext from "./createDataContext";
 import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME } from './types';
+
 const locationReducer = (state, action) => {
    switch (action.type) {
       case ADD_CURRENT_LOCATION:
