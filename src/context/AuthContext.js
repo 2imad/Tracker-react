@@ -22,7 +22,7 @@ const authReducer = (state, action) => {
 const autoSignIn = dispatch => async () => {
   const token = await AsyncStorage.getItem('token');
   if (token) {
-    dispatch({ type: SIGN_IN, payload: token })
+    dispatch({ type: SIGN_IN, payload: token });
     navigate('TrackList');
   } else {
     navigate('Signup');
@@ -36,7 +36,7 @@ const clearErrorMessage = dispatch => () => {
 const signup = (dispatch) => {
   return async ({ email, password }) => {
     try {
-      const response = await trackerApi.post('/signup', { email, password })
+      const response = await trackerApi.post('/signup', { email, password });
       await AsyncStorage.setItem('token', response.data.token);
       dispatch({ type: SIGN_IN, payload: response.data.token });
       navigate('TrackList');

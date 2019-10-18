@@ -1,18 +1,20 @@
 import createDataContext from "./createDataContext";
-import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME } from './types';
+import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME, RESET } from './types';
 
 const locationReducer = (state, action) => {
    switch (action.type) {
       case ADD_CURRENT_LOCATION:
-         return { ...state, currentLocation: action.payload }
+         return { ...state, currentLocation: action.payload };
       case START_RECORDING:
-         return { ...state, recording: true }
+         return { ...state, recording: true };
       case STOP_RECORDING:
-         return { ...state, recording: false }
+         return { ...state, recording: false };
       case ADD_LOCATION:
-         return { ...state, locations: [...state.locations, action.payload] }
+         return { ...state, locations: [...state.locations, action.payload] };
       case CHANGE_NAME:
-         return { ...state, name: action.payload }
+         return { ...state, name: action.payload };
+      case RESET:
+         return { ...state, name: '', locations: [] };
       default:
          return state;
    }
@@ -34,9 +36,12 @@ const startRecording = dispatch => () => {
 const stopRecording = dispatch => () => {
    dispatch({ type: STOP_RECORDING })
 };
+const reset = dispatch => () => {
+   dispatch({ type: RESET });
+}
 
 export const { Context, Provider } = createDataContext(
    locationReducer,
-   { changeTrackName, addLocation, startRecording, stopRecording },
+   { changeTrackName, addLocation, startRecording, stopRecording, reset },
    { name: '', locations: [], recording: false, currentLocation: null }
 );
