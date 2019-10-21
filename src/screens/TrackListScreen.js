@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-import { NavigationEvents } from 'react-navigation';
-import { ListItem, Card, Image } from 'react-native-elements';
+import { NavigationEvents, SafeAreaView } from 'react-navigation';
+import { ListItem, Card, Image, Text } from 'react-native-elements';
 import { Context as TrackContext } from '../context/TrackContext';
 import hikeAsset from '../../assets/images/hike.png'
 
@@ -10,14 +10,13 @@ const TrackListScreen = ({ navigation }) => {
   const { state, fetchTracks } = useContext(TrackContext);
   return (
     <>
+      <SafeAreaView forceInset={{ top: 'always' }}></SafeAreaView>
       <NavigationEvents onWillFocus={fetchTracks} />
       <Card
         containerStyle={styles.container}
         title='TRACKS'
         titleStyle={styles.content}
-        imageStyle={styles.img}
-        image={require('../../assets/images/hike.jpeg')}>
-
+      >
         <FlatList
           data={state}
           keyExtractor={(item) => item._id}
@@ -37,16 +36,16 @@ const TrackListScreen = ({ navigation }) => {
       </Card>
     </>
   );
+
 };
 
-TrackListScreen.navigationOpltions = {
-
+TrackListScreen.navigationOptions = {
+  header: null
 }
-
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
   },
   img: {
     aspectRatio: 1

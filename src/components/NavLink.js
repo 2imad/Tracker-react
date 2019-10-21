@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
    },
    linkText: {
       fontFamily: "Montserrat",
-      color: '#84A0DF'
+      color: '#fff',
+      textAlign: 'left'
    }
 })
 
