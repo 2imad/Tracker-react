@@ -1,5 +1,6 @@
 import createDataContext from "./createDataContext";
-import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME, RESET } from './types';
+import { getDistance } from 'geolib';
+import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME, RESET, RECORD_DISTANCE } from './types';
 
 const locationReducer = (state, action) => {
    switch (action.type) {
@@ -10,20 +11,28 @@ const locationReducer = (state, action) => {
       case STOP_RECORDING:
          return { ...state, recording: false };
       case ADD_LOCATION:
-         return { ...state, locations: [...state.locations, action.payload] };
+         const dist = getDistance(
+            { latitude: state.initialLocation.coords.latitude, longitude: state.initialLocation.coords.latitude },
+            { latitude: action.payload.coords.latitude, longitude: action.payload.coords.latitude }
+         )
+         return { ...state, locations: [...state.locations, action.payload], distance: dist };
       case CHANGE_NAME:
          return { ...state, name: action.payload };
       case RESET:
          return { ...state, name: '', locations: [] };
+      case RECORD_DISTANCE:
+         return { ...state, initialLocation: action.payload }
       default:
          return state;
    }
 };
-
 const changeTrackName = dispatch => name => {
    dispatch({ type: CHANGE_NAME, payload: name })
 }
 
+const getUIDistance = dispatch => (location) => {
+   dispatch({ type: RECORD_DISTANCE, payload: location })
+}
 const addLocation = dispatch => (location, recording) => {
    dispatch({ type: ADD_CURRENT_LOCATION, payload: location })
    if (recording) {
@@ -42,6 +51,6 @@ const reset = dispatch => () => {
 
 export const { Context, Provider } = createDataContext(
    locationReducer,
-   { changeTrackName, addLocation, startRecording, stopRecording, reset },
-   { name: '', locations: [], recording: false, currentLocation: null }
+   { changeTrackName, addLocation, startRecording, stopRecording, reset, getUIDistance },
+   { initialLocation: {}, distance: 0, name: '', locations: [], recording: false, currentLocation: null }
 );

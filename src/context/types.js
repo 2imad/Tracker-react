@@ -10,3 +10,4 @@ export const ADD_LOCATION = "ADD_LOCATION";
 export const CHANGE_NAME = "CHANGE_NAME";
 export const RESET = "RESET";
 export const FETCH_TRACKS = "FETCH_TRACKS";
+export const RECORD_DISTANCE = "RECORD_DISTANCE";

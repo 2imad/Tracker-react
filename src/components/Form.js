@@ -67,38 +67,6 @@ const Form = ({ error, headerTitle, buttonTitle, onSubmit, route, linkText }) =>
             </TouchableWithoutFeedback>
          </SafeAreaView>
       </KeyboardAvoidingView>
-
-
-      /*  <View style={styles.container}>
-        <Spacer>
-           <Text style={styles.text} h3>
-              {headerTitle}
-           </Text>
-        </Spacer>
-        <Input
-           autoCapitalize='none'
-           autoCorrect={false}
-           value={email}
-           onChangeText={setEmail}
-           labelStyle={styles.label} label="Email" />
-        <Spacer />
-        <Input
-           autoCorrect={false}
-           autoCapitalize='none'
-           value={password}
-           onChangeText={setPassword}
-           labelStyle={styles.label} label="Password"
-           secureTextEntry
-        />
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        <Spacer>
-           <Button onPress={() => onSubmit({ email, password })} style={{ marginTop: 60, ...styles.label }} title={buttonTitle} />
-        </Spacer>
-        <NavLink
-           route={route}
-           linkText={linkText}
-        />
-     </View> */
    );
 };
 

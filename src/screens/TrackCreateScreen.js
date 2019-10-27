@@ -1,5 +1,5 @@
-//import '../_mockLocation';
-import React, { useContext, useCallback } from "react";
+import '../_mockLocation';
+import React, { useContext, useCallback, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import { Text } from 'react-native-elements';
@@ -8,13 +8,29 @@ import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation'
 import TrackForm from "../components/TrackForm";
 import { FontAwesome } from '@expo/vector-icons';
+import { getCurrentPositionAsync } from 'expo-location';
 
 const TrackCreateScreen = ({ isFocused }) => {
-  const { state: { recording }, addLocation } = useContext(LocationContext);
+  const { state: { recording, distance }, addLocation, getUIDistance } = useContext(LocationContext);
+
+  const _getUserLocation = async () => {
+    try {
+      const loc = await getCurrentPositionAsync();
+      getUIDistance(loc)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const callback = useCallback((location) => {
-    addLocation(location, recording)
+    addLocation(location, recording);
   }, [recording])
-  const [err, setErr] = useLocation(isFocused || recording, callback)
+
+  useEffect(() => {
+    _getUserLocation();
+  }, [])
+  const { err, setErr } = useLocation(isFocused || recording, callback)
+
+
 
   return (
     <SafeAreaView forceInset={{ top: 'always' }} >
@@ -26,6 +42,9 @@ const TrackCreateScreen = ({ isFocused }) => {
       </View>
       {err ? <Text>Please enable location services</Text> : null}
       <TrackForm />
+      <View>
+        <Text> {distance} </Text>
+      </View>
     </SafeAreaView>
   );
 };

@@ -4,7 +4,6 @@ import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-loca
 
 export default (shouldTrack, callback) => {
    const [err, setErr] = useState(null);
-
    useEffect(() => {
       let subscriber;
       const startWatching = async () => {
@@ -19,8 +18,9 @@ export default (shouldTrack, callback) => {
             setErr(error)
          }
       };
+
       if (shouldTrack) {
-         startWatching()
+         startWatching();
       } else {
          if (subscriber) {
             subscriber.remove();
