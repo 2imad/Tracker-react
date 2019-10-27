@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import { Text, StyleSheet, ActivityIndicator } from 'react-native';
-import MapView, { Polyline, Marker, Circle } from 'react-native-maps'
+import { Text, StyleSheet, ActivityIndicator, View } from 'react-native';
+import MapView, { Polyline, Marker } from 'react-native-maps'
 import { Context as LocationContaxt } from '../context/LocationContext';
-import { hasStartedLocationUpdatesAsync } from 'expo-location';
 
 
 const Map = () => {
@@ -19,16 +18,39 @@ const Map = () => {
       longitudeDelta: 0.01
     }}
     style={styles.map}>
-    <Circle
-      center={currentLocation.coords}
-      radius={30}
-      strokeColor="rgba(168, 241, 209,1.0)"
-      fillColor="rgba(168, 241, 209,.3)"
-    />
-    <Polyline coordinates={locations.map(loc => loc.coords)} />
+    <Marker coordinate={currentLocation.coords}>
+      <View style={styles.radius}>
+        <View style={styles.marker} />
+      </View>
+    </Marker>
+    <Polyline
+      fillColor="#FF5533"
+      strokeWidth={8}
+      strokeColor="#FF5533"
+      coordinates={locations.map(loc => loc.coords)} />
   </MapView>
 }
 const styles = StyleSheet.create({
+  radius: {
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(32,53,70,.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(32,53,70,.3)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  marker: {
+    height: 20,
+    width: 20,
+    borderWidth: 3,
+    borderColor: '#fff',
+    borderRadius: 20 / 2,
+    overflow: 'hidden',
+    backgroundColor: '#f7c744'
+  },
   map: {
     height: 200
   }

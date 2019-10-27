@@ -19,7 +19,11 @@ const TrackDetailScreen = ({ navigation }) => {
           ...initialCoords
         }}
       >
-        <Polyline coordinates={track.locations.map(loc => loc.coords)} />
+        <Polyline
+          fillColor="#FF5533"
+          strokeWidth={8}
+          strokeColor="#FF5533"
+          coordinates={track.locations.map(loc => loc.coords)} />
       </MapView>
     </View>
   );

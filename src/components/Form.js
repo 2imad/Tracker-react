@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { colors, padding, fonts } from '../styles/base'
 import {
    Button,
    Platform,
@@ -74,8 +75,7 @@ const Form = ({ error, headerTitle, buttonTitle, onSubmit, route, linkText }) =>
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: 'rgb(32,53,70)',
-
+      backgroundColor: colors.primaryBgColor,
    },
    inner: {
       flex: 1,
@@ -90,16 +90,16 @@ const styles = StyleSheet.create({
       flex: 1
    },
    input: {
-      fontFamily: 'Montserrat',
-      paddingHorizontal: 6,
-      marginBottom: 10,
+      fontFamily: fonts.primary,
+      paddingHorizontal: padding.sm - 2,
+      marginBottom: padding.sm,
       height: 40,
-      color: '#fff',
+      color: colors.secondary,
       backgroundColor: 'rgba(255,255,255,.2)'
    },
    title: {
-      fontFamily: 'Montserrat',
-      color: '#f7c744',
+      fontFamily: fonts.primary,
+      color: colors.primary,
       fontSize: 18,
       textAlign: 'center',
       marginTop: 5,
@@ -114,14 +114,14 @@ const styles = StyleSheet.create({
       color: 'rgb(32,53,70)',
       fontWeight: 'bold',
       fontSize: 18,
-      fontFamily: 'Montserrat'
+      fontFamily: fonts.primary
    },
    buttonContainer: {
-      backgroundColor: '#f7c744',
+      backgroundColor: colors.primary,
       paddingVertical: 10
    },
    error: {
-      color: '#fff',
+      color: colors.primary,
       fontSize: 16,
       textAlign: 'center',
       marginBottom: 4

@@ -1,5 +1,7 @@
 import '../_mockLocation';
 import React, { useContext, useCallback, useEffect } from "react";
+import BottomTitle from '../components/BottomTitle';
+import { colors } from '../styles/base';
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import { Text } from 'react-native-elements';
@@ -30,8 +32,6 @@ const TrackCreateScreen = ({ isFocused }) => {
   }, [])
   const { err, setErr } = useLocation(isFocused || recording, callback)
 
-
-
   return (
     <SafeAreaView forceInset={{ top: 'always' }} >
       <View style={styles.container}>
@@ -50,8 +50,8 @@ const TrackCreateScreen = ({ isFocused }) => {
 };
 
 TrackCreateScreen.navigationOptions = {
-  title: 'Add Track',
-  tabBarIcon: <FontAwesome color="#85A0DF" name="plus" size={20} />
+  tabBarLabel: ({ focused }) => <BottomTitle isFocused={focused}>Add Track</BottomTitle>,
+  tabBarIcon: <FontAwesome color={colors.primary} name="plus" size={20} />
 
 }
 const styles = StyleSheet.create({

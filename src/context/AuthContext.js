@@ -18,7 +18,6 @@ const authReducer = (state, action) => {
       return state;
   }
 }
-
 const autoSignIn = dispatch => async () => {
   const token = await AsyncStorage.getItem('token');
   if (token) {
@@ -28,7 +27,6 @@ const autoSignIn = dispatch => async () => {
     navigate('Signup');
   }
 }
-
 const clearErrorMessage = dispatch => () => {
   dispatch({ type: CLEAR_ERROR })
 }

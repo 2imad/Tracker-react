@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { AppLoading } from "expo";
+import BottomTitle from './src/components/BottomTitle';
 import * as Font from "expo-font";
+import { fonts, colors } from './src/styles/base';
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -32,11 +34,19 @@ const switchNavigator = createSwitchNavigator({
     trackListFlow: trackListFlow,
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen
+  }, {
+    tabBarOptions: {
+      style: {
+        height: 60,
+        backgroundColor: colors.primaryBgColor,
+        paddingTop: 5,
+      }
+    }
   })
 });
 trackListFlow.navigationOptions = {
-  title: 'Tracks',
-  tabBarIcon: <FontAwesome color="#85A0DF" name="list" size={20} />
+  tabBarLabel: ({ focused }) => <BottomTitle isFocused={focused}>Tracks</BottomTitle>,
+  tabBarIcon: ({ focused }) => <FontAwesome color={colors.primary} name="list" size={20} />
 }
 const AppContainer = createAppContainer(switchNavigator);
 export default class App extends Component {

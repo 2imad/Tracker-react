@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { StyleSheet, Text } from "react-native";
+import BottomTitle from '../components/BottomTitle';
+import { colors } from '../styles/base'
 import { Context as AuthContext } from '../context/AuthContext';
 import { SafeAreaView } from 'react-navigation';
 import { Button } from 'react-native-elements';
@@ -16,8 +18,8 @@ const AccountScreen = () => {
   );
 };
 AccountScreen.navigationOptions = {
-  title: 'Account',
-  tabBarIcon: <FontAwesome color="#85A0DF" name="gear" size={20} />
+  tabBarLabel: ({ focused }) => <BottomTitle isFocused={focused}>Account</BottomTitle>,
+  tabBarIcon: <FontAwesome color={colors.primary} name="gear" size={20} />
 }
 const styles = StyleSheet.create({});
 export default AccountScreen;
