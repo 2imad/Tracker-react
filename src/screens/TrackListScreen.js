@@ -62,7 +62,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryBgColor,
     flexDirection: 'row-reverse',
     height: 100,
-    paddingBottom: 5
+    paddingBottom: 5,
+    borderBottomWidth: .5,
+    borderColor: colors.secondary
+
   },
   avatarContainer: {
     paddingHorizontal: padding.sm,
@@ -103,6 +106,7 @@ const styles = StyleSheet.create({
   },
   ListContainer: {
     flex: 1,
+    backgroundColor: colors.primaryBgColor
   },
   content: {
     fontFamily: 'Montserrat',

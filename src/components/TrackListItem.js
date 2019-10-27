@@ -30,7 +30,7 @@ const TrackListItem = ({ title, distance }) => {
 const styles = StyleSheet.create({
    container: {
       backgroundColor: colors.primaryBgColor,
-      borderTopWidth: .5,
+      borderBottomWidth: .5,
       borderColor: colors.secondary,
       flexDirection: 'row',
       height: 80,
