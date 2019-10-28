@@ -1,7 +1,7 @@
-import '../_mockLocation';
+//import '../_mockLocation';
 import React, { useContext, useCallback, useEffect } from "react";
 import BottomTitle from '../components/BottomTitle';
-import { colors } from '../styles/base';
+import { colors, fonts } from '../styles/base';
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import { Text } from 'react-native-elements';
@@ -9,7 +9,10 @@ import Map from '../components/Map'
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation'
 import TrackForm from "../components/TrackForm";
-import { FontAwesome } from '@expo/vector-icons';
+import {
+  FontAwesome,
+  MaterialCommunityIcons
+} from '@expo/vector-icons';
 import { getCurrentPositionAsync } from 'expo-location';
 
 const TrackCreateScreen = ({ isFocused }) => {
@@ -33,37 +36,71 @@ const TrackCreateScreen = ({ isFocused }) => {
   const { err, setErr } = useLocation(isFocused || recording, callback)
 
   return (
-    <SafeAreaView forceInset={{ top: 'always' }} >
-      <View style={styles.container}>
-        <Text style={styles.text} h3> Create a track</Text>
-        <View style={styles.mapContainer} >
-          <Map />
-        </View>
+    <>
+      <View style={styles.backGroundContainer} />
+      <View style={styles.mapContainer}>
+        <Map />
       </View>
       {err ? <Text>Please enable location services</Text> : null}
-      <TrackForm />
-      <View>
-        <Text> {distance} </Text>
+      <View style={styles.formContainer}>
+        <View style={styles.distanceContainer}>
+          <View>
+            <Text style={styles.textStyle}><MaterialCommunityIcons name="run-fast" size={35} /></Text>
+            <Text style={styles.valueStyle}>{distance}</Text>
+          </View>
+          <View>
+            <Text style={styles.textStyle}>Time</Text>
+            <Text style={styles.valueStyle}>00:32:58 sec</Text>
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TrackForm />
+        </View>
       </View>
-    </SafeAreaView>
+
+    </>
   );
 };
-
 TrackCreateScreen.navigationOptions = {
   tabBarLabel: ({ focused }) => <BottomTitle isFocused={focused}>Add Track</BottomTitle>,
   tabBarIcon: <FontAwesome color={colors.primary} name="plus" size={20} />
 
 }
 const styles = StyleSheet.create({
-  text: {
-    fontFamily: 'Montserrat',
-    alignSelf: 'center',
-    marginVertical: 10
-  },
-  container: {
+  backGroundContainer: {
+    height: 200,
+    borderWidth: 2,
+    backgroundColor: 'orange',
+    borderColor: 'rgba(0,0,0,0)',
   },
   mapContainer: {
-    marginHorizontal: 5
+    zIndex: 1,
+    position: 'absolute',
+    top: 30,
+    left: 15,
+    right: 15,
+    elevation: 4
+  },
+  distanceContainer: {
+    flex: .5,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    borderWidth: 3,
+    borderColor: 'green'
+  },
+  formContainer: {
+    flex: 1,
+  },
+  textStyle: {
+    fontSize: fonts.lg,
+    fontFamily: fonts.primary
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   }
 });
 export default withNavigationFocus(TrackCreateScreen);

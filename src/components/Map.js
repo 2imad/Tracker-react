@@ -11,26 +11,41 @@ const Map = () => {
     return <ActivityIndicator size="large" style={{ marginTop: 200 }} />
   }
 
-  return <MapView
-    initialRegion={{
-      ...currentLocation.coords,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01
-    }}
-    style={styles.map}>
-    <Marker coordinate={currentLocation.coords}>
-      <View style={styles.radius}>
-        <View style={styles.marker} />
-      </View>
-    </Marker>
-    <Polyline
-      fillColor="#FF5533"
-      strokeWidth={8}
-      strokeColor="#FF5533"
-      coordinates={locations.map(loc => loc.coords)} />
-  </MapView>
+  return (
+    <View style={styles.mapContainer} >
+      <MapView
+        initialRegion={{
+          ...currentLocation.coords,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01
+        }}
+        style={styles.map}>
+        <Marker coordinate={currentLocation.coords}>
+          <View style={styles.radius}>
+            <View style={styles.marker} />
+          </View>
+        </Marker>
+        <Polyline
+          fillColor="#FF5533"
+          strokeWidth={8}
+          strokeColor="#FF5533"
+          coordinates={locations.map(loc => loc.coords)} />
+      </MapView>
+    </View>
+  )
 }
 const styles = StyleSheet.create({
+  mapContainer: {
+    borderWidth: 3,
+    borderColor: 'rgba(0,0,0,0)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+  },
   radius: {
     height: 50,
     width: 50,
