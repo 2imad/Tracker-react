@@ -15,7 +15,7 @@ const locationReducer = (state, action) => {
             { latitude: state.initialLocation.coords.latitude, longitude: state.initialLocation.coords.latitude },
             { latitude: action.payload.coords.latitude, longitude: action.payload.coords.latitude }
          )
-         return { ...state, locations: [...state.locations, action.payload], distance: dist };
+         return { ...state, seconds: state.seconds + 1, locations: [...state.locations, action.payload], distance: dist };
       case CHANGE_NAME:
          return { ...state, name: action.payload };
       case RESET:
@@ -52,5 +52,5 @@ const reset = dispatch => () => {
 export const { Context, Provider } = createDataContext(
    locationReducer,
    { changeTrackName, addLocation, startRecording, stopRecording, reset, getUIDistance },
-   { initialLocation: {}, distance: 0, name: '', locations: [], recording: false, currentLocation: null }
+   { seconds: 0, initialLocation: {}, distance: 0, name: '', locations: [], recording: false, currentLocation: null }
 );

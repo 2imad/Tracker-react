@@ -4,6 +4,8 @@ import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-loca
 
 export default (shouldTrack, callback) => {
    const [err, setErr] = useState(null);
+   let [counter, setCounter] = useState(0)
+
    useEffect(() => {
       let subscriber;
       const startWatching = async () => {
@@ -14,6 +16,7 @@ export default (shouldTrack, callback) => {
                timeInterval: 1000,
                distanceInterval: 10 // updtae every 10 meters
             }, callback); // where addLocation gets triggered
+
          } catch (error) {
             setErr(error)
          }
@@ -33,5 +36,5 @@ export default (shouldTrack, callback) => {
          }
       }
    }, [shouldTrack, callback])
-   return [err]
+   return { err, counter }
 }
