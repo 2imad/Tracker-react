@@ -9,7 +9,6 @@ import Map from '../components/Map'
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation'
 import TrackForm from "../components/TrackForm";
-import moment from "moment";
 
 import {
   FontAwesome,
@@ -28,7 +27,6 @@ const TrackCreateScreen = ({ isFocused }) => {
       console.log(err)
     }
   }
-
   const callback = useCallback((location) => {
     addLocation(location, recording, seconds);
   }, [recording])
@@ -36,16 +34,13 @@ const TrackCreateScreen = ({ isFocused }) => {
   useEffect(() => {
     _getUserLocation();
   }, [])
-
   const { err } = useLocation(isFocused || recording, callback);
-
   const getMinutes = () => {
     return Math.floor(seconds / 60);
   }
   const getSeconds = () => {
     return ('0' + seconds % 60).slice(-2);
   }
-
   return (
     <>
       <View style={styles.backGroundContainer} />

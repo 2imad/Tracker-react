@@ -1,20 +1,15 @@
 import React, { useContext } from 'react';
-import { Input, Button } from 'react-native-elements';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import FormButton from './formButton'
 import { Context as LocationContext } from '../context/LocationContext';
-import useSaveTrack from '../hooks/useSaveTrack';
-
+import { navigate } from '../navigationRef'
 
 const TrackForm = () => {
    const {
-      state: { name, recording, locations },
+      state: { recording, locations },
       startRecording,
       stopRecording,
-      changeTrackName
    } = useContext(LocationContext);
-   const [saveTrack] = useSaveTrack();
-
    return (
       <>
          {recording
@@ -23,7 +18,7 @@ const TrackForm = () => {
          }
          {
             !recording && locations.length
-               ? <TouchableOpacity onPress={saveTrack}><FormButton title={'SAVE'} /></TouchableOpacity>
+               ? <TouchableOpacity onPress={() => navigate('TrackSave')}><FormButton title={'SAVE'} /></TouchableOpacity>
                : null
          }
       </>
