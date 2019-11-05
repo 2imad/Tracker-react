@@ -4,7 +4,7 @@ import FormButton from './formButton'
 import { Context as LocationContext } from '../context/LocationContext';
 import { navigate } from '../navigationRef'
 
-const TrackForm = () => {
+const TrackForm = ({ onCapture }) => {
    const {
       state: { recording, locations },
       startRecording,
@@ -18,7 +18,7 @@ const TrackForm = () => {
          }
          {
             !recording && locations.length
-               ? <TouchableOpacity onPress={() => navigate('TrackSave')}><FormButton title={'SAVE'} /></TouchableOpacity>
+               ? <TouchableOpacity onPress={onCapture}><FormButton title={'SAVE'} /></TouchableOpacity>
                : null
          }
       </>

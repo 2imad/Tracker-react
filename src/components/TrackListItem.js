@@ -4,6 +4,7 @@ import { Avatar, Text } from 'react-native-elements';
 import { fonts, colors, margin, padding } from '../styles/base'
 import { centerItems } from '../styles/layout';
 import { Entypo } from '@expo/vector-icons';
+import { sanitizeKms } from '../config/helpers'
 
 const TrackListItem = ({ title, distance }) => {
    return (
@@ -20,7 +21,7 @@ const TrackListItem = ({ title, distance }) => {
             <Text style={styles.header}> {title} </Text>
             <View style={styles.rankingContainer}>
                <Text style={styles.ranking}>Distance</Text>
-               <Text style={styles.ranking}>{distance}m</Text>
+               <Text style={styles.ranking}>{sanitizeKms(distance)}</Text>
             </View>
          </View>
          <Entypo style={styles.icon} name="chevron-thin-right" size={20} />

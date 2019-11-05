@@ -16,9 +16,9 @@ const fetchTracks = dispatch => async () => {
    dispatch({ type: FETCH_TRACKS, payload: response.data })
 }
 
-const createTrack = dispatch => async (name, locations, distance) => {
+const createTrack = dispatch => async (name, locations, snapShot, distance) => {
    try {
-      await trackApi.post('/tracks', { name, locations, distance });
+      await trackApi.post('/tracks', { name, locations, snapShot, distance });
    } catch (error) {
       console.log(error)
    }

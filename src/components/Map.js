@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7c744'
   },
   map: {
-    height: 200
+    height: 250
   }
 })
 export default Map;

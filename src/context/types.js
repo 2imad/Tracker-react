@@ -12,3 +12,4 @@ export const RESET = "RESET";
 export const FETCH_TRACKS = "FETCH_TRACKS";
 export const RECORD_DISTANCE = "RECORD_DISTANCE";
 export const UPDATE_COUNTER = "UPDATE_COUNTER";
+export const TAKE_SNAPSHOT = "TAKE_SNAPSHOT";

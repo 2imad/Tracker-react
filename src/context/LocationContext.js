@@ -1,6 +1,6 @@
 import createDataContext from "./createDataContext";
 import { getDistance } from 'geolib';
-import { ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME, RESET, RECORD_DISTANCE } from './types';
+import { TAKE_SNAPSHOT, ADD_CURRENT_LOCATION, STOP_RECORDING, START_RECORDING, ADD_LOCATION, CHANGE_NAME, RESET, RECORD_DISTANCE } from './types';
 
 const locationReducer = (state, action) => {
    switch (action.type) {
@@ -21,11 +21,17 @@ const locationReducer = (state, action) => {
       case RESET:
          return { ...state, name: '', locations: [] };
       case RECORD_DISTANCE:
-         return { ...state, initialLocation: action.payload }
+         return { ...state, initialLocation: action.payload };
+      case TAKE_SNAPSHOT:
+         return { ...state, snapShot: action.payload };
       default:
          return state;
    }
 };
+
+const takeSnapShot = dispatch => (uri) => {
+   dispatch({ type: TAKE_SNAPSHOT, payload: uri })
+}
 const changeTrackName = dispatch => name => {
    dispatch({ type: CHANGE_NAME, payload: name })
 }
@@ -51,6 +57,6 @@ const reset = dispatch => () => {
 
 export const { Context, Provider } = createDataContext(
    locationReducer,
-   { changeTrackName, addLocation, startRecording, stopRecording, reset, getUIDistance },
-   { seconds: 0, initialLocation: {}, distance: 0, name: '', locations: [], recording: false, currentLocation: null }
+   { changeTrackName, addLocation, startRecording, stopRecording, reset, getUIDistance, takeSnapShot },
+   { snapShot: "", seconds: 0, initialLocation: {}, distance: 0, name: '', locations: [], recording: false, currentLocation: null }
 );

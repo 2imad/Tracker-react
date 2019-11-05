@@ -1,5 +1,5 @@
 import '../_mockLocation';
-import React, { useContext, useCallback, useEffect, useState } from "react";
+import React, { useContext, useCallback, useEffect, useState, useRef } from "react";
 import BottomTitle from '../components/BottomTitle';
 import { colors, fonts } from '../styles/base';
 import { View, StyleSheet } from "react-native";
@@ -9,7 +9,8 @@ import Map from '../components/Map'
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation'
 import TrackForm from "../components/TrackForm";
-
+import ViewShot from 'react-native-view-shot';
+import { sanitizeKms } from '../config/helpers';
 import {
   FontAwesome,
   MaterialCommunityIcons,
@@ -17,8 +18,9 @@ import {
 } from '@expo/vector-icons';
 import { getCurrentPositionAsync } from 'expo-location';
 
-const TrackCreateScreen = ({ isFocused }) => {
-  const { state: { recording, distance, seconds }, addLocation, getUIDistance, upDateCounter } = useContext(LocationContext);
+const TrackCreateScreen = ({ isFocused, navigation }) => {
+  const full = useRef();
+  const { state: { recording, distance, seconds }, addLocation, getUIDistance, takeSnapShot } = useContext(LocationContext);
   const _getUserLocation = async () => {
     try {
       const loc = await getCurrentPositionAsync();
@@ -41,18 +43,22 @@ const TrackCreateScreen = ({ isFocused }) => {
   const getSeconds = () => {
     return ('0' + seconds % 60).slice(-2);
   }
+  const onCapture = useCallback(() => {
+    full.current.capture().then(uri => takeSnapShot(uri));
+    navigation.navigate('TrackSave')
+  }, []);
   return (
     <>
       <View style={styles.backGroundContainer} />
-      <View style={styles.mapContainer}>
+      <ViewShot ref={full} style={styles.mapContainer} options={{ format: "jpg", quality: 0.9 }}>
         <Map />
-      </View>
+      </ViewShot>
       {err ? <Text>Please enable location services</Text> : null}
       <View style={styles.formContainer}>
         <View style={styles.distanceContainer}>
           <View style={styles.iconHolder}>
             <Text style={styles.textStyle}><MaterialCommunityIcons name="run-fast" color={colors.orangeRed} size={40} /></Text>
-            <Text style={styles.valueStyle}>{distance < 1000 ? `${distance} m` : `${(distance / 1000).toFixed(2)} km`}</Text>
+            <Text style={styles.valueStyle}>{sanitizeKms(distance)}</Text>
           </View>
           <View style={styles.iconHolder}>
             <Text style={styles.textStyle}><MaterialCommunityIcons name="timer" color={colors.orangeRed} size={40} /></Text>
@@ -60,7 +66,7 @@ const TrackCreateScreen = ({ isFocused }) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TrackForm />
+          <TrackForm onCapture={onCapture} />
         </View>
       </View>
     </>

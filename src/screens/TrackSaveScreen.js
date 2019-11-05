@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import FormButton from '../components/formButton';
 import { colors, fonts, padding, margin } from '../styles/base';
-import { centerItems } from '../styles/layout';
-import { insertBorder } from '../styles/utils';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import useSaveTrack from '../hooks/useSaveTrack';
