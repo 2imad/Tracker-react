@@ -43,9 +43,11 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
   const getSeconds = () => {
     return ('0' + seconds % 60).slice(-2);
   }
-  const onCapture = useCallback(() => {
-    full.current.capture().then(uri => takeSnapShot(uri));
+  const onCapture = useCallback(async () => {
+    const res = await full.current.capture();
+    const uri = await takeSnapShot(res);
     navigation.navigate('TrackSave')
+
   }, []);
   return (
     <>
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   backGroundContainer: {
     height: 200,
     borderWidth: 2,
-    backgroundColor: 'orange',
+    backgroundColor: colors.primary,
     borderColor: 'rgba(0,0,0,0)',
   },
   mapContainer: {

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import FormButton from './formButton'
 import { Context as LocationContext } from '../context/LocationContext';
-import { navigate } from '../navigationRef'
 
 const TrackForm = ({ onCapture }) => {
    const {

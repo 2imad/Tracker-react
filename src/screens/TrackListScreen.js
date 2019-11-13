@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, TouchableOpacity, FlatList, StatusBar } from "react-native";
+import { View, StyleSheet, TouchableOpacity, FlatList, StatusBar, ActivityIndicator } from "react-native";
 import { NavigationEvents, SafeAreaView } from 'react-navigation';
-import { ListItem, Avatar, Text, Badge } from 'react-native-elements';
+import { Avatar, Text, Badge } from 'react-native-elements';
 import { Context as TrackContext } from '../context/TrackContext';
 import hikeAsset from '../../assets/images/hike.png'
 import { centerItems } from '../styles/layout';
 import { fonts, colors, margin, padding } from '../styles/base';
 import TrackListItem from "../components/TrackListItem";
+import Loader from '../components/Loader'
 
 const TrackListScreen = ({ navigation }) => {
   const { state, fetchTracks } = useContext(TrackContext);
@@ -18,11 +19,13 @@ const TrackListScreen = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <View style={styles.avatarContainer}>
           <View style={styles.avatarInnerContainer} >
-            <Avatar
-              source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
-              size={70} rounded title="MD"
-              showEditButton
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Account')}>
+              <Avatar
+                source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
+                size={70} rounded title="MD"
+                showEditButton
+              />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.textContainer} >
@@ -36,18 +39,21 @@ const TrackListScreen = ({ navigation }) => {
       <View
         style={styles.ListContainer}
       >
-        <FlatList
-          data={state}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => {
-            return <TouchableOpacity onPress={() => navigation.navigate('TrackDetail', { _id: item._id })} >
-              <TrackListItem
-                title={item.name}
-                distance={item.distance}
-              />
-            </TouchableOpacity>
-          }}
-        />
+        {!state
+          ? (<Loader />)
+          : <FlatList
+            data={state}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+              return <TouchableOpacity onPress={() => navigation.navigate('TrackDetail', { _id: item._id })} >
+                <TrackListItem
+                  title={item.name}
+                  distance={item.distance}
+                />
+              </TouchableOpacity>
+            }}
+          />
+        }
       </View>
     </>
   );
