@@ -17,7 +17,7 @@ const SignIn = () => {
         buttonTitle='Sign in'
         linkText='You do not have an account yet? Sign up instead!'
         route='Signup'
-        onSubmit={signin}
+        submitForm={signin}
       />
     </>
   );

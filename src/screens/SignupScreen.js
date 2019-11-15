@@ -17,7 +17,7 @@ const SignupScreen = () => {
         buttonTitle='Sign Up'
         linkText='You already have an account? sign in instead'
         route='Signin'
-        onSubmit={signup}
+        submitForm={signup}
       />
     </>
   );

@@ -9,8 +9,8 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "backgroundColor": "#fff"
+      "image": "./assets/images/splash.png",
+      "backgroundColor": "#203546"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

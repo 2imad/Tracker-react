@@ -27,7 +27,7 @@ const AccountScreen = () => {
         </View>
       </View>
       <View style={styles.latter}>
-
+        <Button title="Sing Out" onPress={signout} />
       </View>
     </View>
 

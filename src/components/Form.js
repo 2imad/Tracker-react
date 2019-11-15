@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { colors, padding, fonts } from '../styles/base'
 import {
-   Button,
+   ActivityIndicator,
    Platform,
    StyleSheet,
    Text,
-   Image,
    TouchableWithoutFeedback,
-   StatusBar, TextInput,
+   TextInput,
    SafeAreaView,
    Keyboard,
    KeyboardAvoidingView,
@@ -15,58 +14,97 @@ import {
    TouchableOpacity
 }
    from "react-native";
+import { NavigationEvents } from 'react-navigation';
 import NavLink from "./NavLink";
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-const Form = ({ error, headerTitle, buttonTitle, onSubmit, route, linkText }) => {
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
+const validationSchema = yup.object().shape({
+   email: yup
+      .string()
+      .label()
+      .email('Email must be valid')
+      .required('This is a required field'),
+   password: yup
+      .string()
+      .label()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters long')
+
+})
+const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText }) => {
    return (
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : null}
          style={{ flex: 1 }}
       >
-         <SafeAreaView style={styles.container}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-               <View style={styles.inner}>
-                  <View style={styles.logoContainer}>
-                     <Text style={styles.title}> {headerTitle} </Text>
-                  </View>
-                  <View style={styles.inputContainer} >
-                     <TextInput style={styles.input}
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Enter email"
-                        placeholderTextColor="rgba(255,255,255,0.8)"
-                        keyboardType="email-address"
-                        returnKeyType="next"
-                        autoCorrect={false}
-                     //onSubmitEditing={() => refs.txtPassword.focus()}
-                     />
-                     <TextInput style={styles.input}
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder="Enter password"
-                        placeholderTextColor="rgba(255,255,255,0.8)"
-                        secureTextEntry={true}
-                        returnKeyType="go"
-                        autoCorrect={false}
-                     //refs={"txtPassword"}
-                     />
-                     {error ? <Text style={styles.error}>{error}</Text> : null}
-                     <TouchableOpacity style={styles.buttonContainer}
-                        onPress={() => onSubmit({ email, password })}
-                     >
-                        <Text style={styles.buttonText}> {buttonTitle} </Text>
-                     </TouchableOpacity>
-                     <NavLink
-                        route={route}
-                        linkText={linkText}
-                     />
-                  </View>
-                  <View style={{ flex: 1 }} />
-               </View>
-            </TouchableWithoutFeedback>
-         </SafeAreaView>
+         <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={(values, actions) => {
+               actions.setSubmitting(true);
+               const { email, password } = values
+               submitForm({ email, password });
+               actions.setSubmitting(false);
+            }}
+            validationSchema={validationSchema}
+         >
+            {formikProps => (
+               <>
+                  <NavigationEvents onWillBlur={() => formikProps.setErrors("")} />
+                  <SafeAreaView style={styles.container}>
+                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.inner}>
+                           <View style={styles.logoContainer}>
+                              <Text style={styles.title}> {headerTitle} </Text>
+                           </View>
+                           <View style={styles.inputContainer} >
+                              <TextInput style={styles.input}
+                                 //value={email}
+                                 onChangeText={formikProps.handleChange('email')}
+                                 onBlur={formikProps.handleBlur('email')}
+                                 placeholder="Enter email"
+                                 placeholderTextColor="rgba(255,255,255,0.8)"
+                                 keyboardType="email-address"
+                                 returnKeyType="next"
+                                 autoCorrect={false}
+                              />
+                              <Text style={{ color: 'red', marginBottom: padding.sm }}> {formikProps.touched.email && formikProps.errors.email} </Text>
+                              <TextInput style={styles.input}
+                                 //value={password}
+                                 onChangeText={formikProps.handleChange('password')}
+                                 onBlur={formikProps.handleBlur('password')}
+                                 placeholder="Enter password"
+                                 placeholderTextColor="rgba(255,255,255,0.8)"
+                                 secureTextEntry={true}
+                                 returnKeyType="go"
+                                 autoCorrect={false}
+                              />
+
+                              <Text style={{ color: 'red', marginBottom: padding.sm }}> {formikProps.touched.password && formikProps.errors.password} </Text>
+                              {formikProps.isSubmitting
+                                 ?
+                                 <ActivityIndicator />
+                                 :
+                                 <TouchableOpacity style={styles.buttonContainer}
+                                    onPress={formikProps.handleSubmit}
+                                 >
+                                    <Text style={styles.buttonText}> {buttonTitle} </Text>
+                                 </TouchableOpacity>
+                              }
+                              {error ? <Text style={{ color: 'red', marginTop: 3 }}>{error}</Text> : null}
+                              <NavLink
+                                 route={route}
+                                 linkText={linkText}
+                              />
+                           </View>
+                           <View style={{ flex: 1 }} />
+                        </View>
+                     </TouchableWithoutFeedback>
+                  </SafeAreaView>
+
+               </>
+            )}
+         </Formik>
       </KeyboardAvoidingView>
    );
 };
@@ -92,7 +130,7 @@ const styles = StyleSheet.create({
    input: {
       fontFamily: fonts.primary,
       paddingHorizontal: padding.sm - 2,
-      marginBottom: padding.sm,
+      //marginBottom: padding.sm,
       height: 40,
       color: colors.secondary,
       backgroundColor: 'rgba(255,255,255,.2)'

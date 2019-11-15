@@ -39,7 +39,7 @@ const signup = (dispatch) => {
       dispatch({ type: SIGN_IN, payload: response.data.token });
       navigate('TrackList');
     } catch (err) {
-      dispatch({ type: ADD_ERROR, payload: 'Something went wrong!' })
+      dispatch({ type: ADD_ERROR, payload: 'Unable to sign you up! try again' })
     }
   }
 }
@@ -51,7 +51,7 @@ const signin = (dispatch) => {
       dispatch({ type: SIGN_IN, payload: response.data.token });
       navigate('TrackList');
     } catch (error) {
-      dispatch({ type: ADD_ERROR, payload: 'Something went wrong!' })
+      dispatch({ type: ADD_ERROR, payload: 'incorrect email and password combination' })
     }
   }
 }
@@ -65,5 +65,5 @@ const signout = (dispatch) => async () => {
 export const { Provider, Context } = createDataContext(
   authReducer,
   { signin, signout, signup, clearErrorMessage, autoSignIn },
-  { token: null, errorMessage: '' }
+  { token: null, errorMessage: '', isLoading: false }
 )
