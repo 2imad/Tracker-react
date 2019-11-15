@@ -12,6 +12,7 @@ const SignupScreen = () => {
         onWillBlur={clearErrorMessage}
       />
       <Form
+        isLoading={state.isLoading}
         error={state.errorMessage}
         headerTitle='Sign Up With Tracker'
         buttonTitle='Sign Up'

@@ -12,6 +12,7 @@ const SignIn = () => {
         onWillBlur={clearErrorMessage}
       />
       <Form
+        isLoading={state.isLoading}
         error={state.errorMessage}
         headerTitle='Sign in'
         buttonTitle='Sign in'

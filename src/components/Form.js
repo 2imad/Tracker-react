@@ -32,7 +32,7 @@ const validationSchema = yup.object().shape({
       .min(6, 'Password must be at least 6 characters long')
 
 })
-const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText }) => {
+const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText, isLoading }) => {
    return (
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : null}
@@ -81,7 +81,7 @@ const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText }) 
                               />
 
                               <Text style={{ color: 'red', marginBottom: padding.sm }}> {formikProps.touched.password && formikProps.errors.password} </Text>
-                              {formikProps.isSubmitting
+                              {isLoading
                                  ?
                                  <ActivityIndicator />
                                  :

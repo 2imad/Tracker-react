@@ -2,14 +2,16 @@ import { AsyncStorage } from 'react-native';
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import { navigate } from '../navigationRef';
-import { ADD_ERROR, SIGN_IN, CLEAR_ERROR, SIGN_OUT } from './types';
+import { ADD_ERROR, SIGN_IN, CLEAR_ERROR, SIGN_OUT, SET_LOADING } from './types';
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case SET_LOADING:
+      return { ...state, isLoading: true }
     case SIGN_IN:
-      return { ...state, token: action.payload }
+      return { ...state, token: action.payload, isLoading: false }
     case ADD_ERROR:
-      return { errorMessage: '', errorMessage: action.payload }
+      return { errorMessage: '', errorMessage: action.payload, isLoading: false }
     case CLEAR_ERROR:
       return { ...state, errorMessage: '' }
     case SIGN_OUT:
@@ -33,6 +35,7 @@ const clearErrorMessage = dispatch => () => {
 
 const signup = (dispatch) => {
   return async ({ email, password }) => {
+    dispatch({ type: SET_LOADING })
     try {
       const response = await trackerApi.post('/signup', { email, password });
       await AsyncStorage.setItem('token', response.data.token);
@@ -45,6 +48,7 @@ const signup = (dispatch) => {
 }
 const signin = (dispatch) => {
   return async ({ email, password }) => {
+    dispatch({ type: SET_LOADING })
     try {
       const response = await trackerApi.post('/signin', { email, password });
       await AsyncStorage.setItem('token', response.data.token);
