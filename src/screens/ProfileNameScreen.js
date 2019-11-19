@@ -1,37 +1,38 @@
 import React, { useContext } from "react";
+import { Context as ProfileContext } from "../context/ProfileContext";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { colors, fonts, padding, margin } from "../styles/base";
-import { Context as LocationContext } from "../context/LocationContext";
-import useSaveTrack from "../hooks/useSaveTrack";
 import FormInput from "../components/FormInput";
-const TrackSaveScreen = () => {
+import useSaveProfile from "../hooks/useSaveProfile";
+const ProfileNameScreen = () => {
   const {
     state: { name },
-    changeTrackName
-  } = useContext(LocationContext);
-  const [saveTrack] = useSaveTrack();
+    changeProfileName
+  } = useContext(ProfileContext);
+  const [saveProfile] = useSaveProfile();
   const submit = () => {
-    changeTrackName();
-    saveTrack();
+    changeProfileName();
+    saveProfile();
   };
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
       <View style={styles.inner}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}> Save my track </Text>
+          <Text style={styles.title}> Add my profile name </Text>
         </View>
         <FormInput
           buttonTitle="SAVE"
-          holderValue="My Track name"
+          holderValue="Profile name"
           inputValue={name}
-          handleChange={changeTrackName}
+          handleChange={changeProfileName}
           submitValue={submit}
         />
       </View>
     </SafeAreaView>
   );
 };
-TrackSaveScreen.navigationOptions = {
+
+ProfileNameScreen.navigationOptions = {
   header: null
 };
 const styles = StyleSheet.create({
@@ -51,4 +52,4 @@ const styles = StyleSheet.create({
     opacity: 0.8
   }
 });
-export default TrackSaveScreen;
+export default ProfileNameScreen;

@@ -1,77 +1,117 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, TouchableOpacity, FlatList, StatusBar, ActivityIndicator } from "react-native";
-import { NavigationEvents, SafeAreaView } from 'react-navigation';
-import { Avatar, Text, Badge } from 'react-native-elements';
-import { Context as TrackContext } from '../context/TrackContext';
-import hikeAsset from '../../assets/images/hike.png'
-import { centerItems } from '../styles/layout';
-import { fonts, colors, margin, padding } from '../styles/base';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  StatusBar
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { NavigationEvents, SafeAreaView } from "react-navigation";
+import { Avatar, Text, Badge } from "react-native-elements";
+import { Context as TrackContext } from "../context/TrackContext";
+import { Context as ProfileContext } from "../context/ProfileContext";
+import hikeAsset from "../../assets/images/hike.png";
+import { centerItems } from "../styles/layout";
+import { fonts, colors, margin, padding } from "../styles/base";
 import TrackListItem from "../components/TrackListItem";
-import Loader from '../components/Loader'
-
+import Loader from "../components/Loader";
 const TrackListScreen = ({ navigation }) => {
-  const { state, fetchTracks } = useContext(TrackContext);
+  const {
+    state: { tracks, isFetching },
+    fetchTracks
+  } = useContext(TrackContext);
+  const {
+    state: { profile, image },
+    getProfileName,
+    getProfilePhoto
+  } = useContext(ProfileContext);
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: colors.primaryBgColor }} forceInset={{ top: 'always' }}></SafeAreaView>
-      <NavigationEvents onWillFocus={fetchTracks} />
+      <SafeAreaView
+        style={{ backgroundColor: colors.primaryBgColor }}
+        forceInset={{ top: "always" }}
+      ></SafeAreaView>
+      <NavigationEvents
+        onWillFocus={() => {
+          getProfileName();
+          getProfilePhoto();
+        }}
+        onDidFocus={fetchTracks}
+      />
       <StatusBar barStyle="light-content" />
       <View style={styles.headerContainer}>
         <View style={styles.avatarContainer}>
-          <View style={styles.avatarInnerContainer} >
-            <TouchableOpacity onPress={() => navigation.navigate('Account')}>
+          <View style={styles.avatarInnerContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("Account")}>
               <Avatar
-                source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
-                size={70} rounded title="MD"
+                source={{
+                  uri: image
+                }}
+                size={70}
+                rounded
+                title="MD"
                 showEditButton
               />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.textContainer} >
-          <Text style={styles.header}> Imad Youssoufi </Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.header}> {profile} </Text>
           <View style={styles.rankingContainer}>
             <Text style={styles.ranking}>Rank</Text>
             <Badge value="2" />
           </View>
         </View>
       </View>
-      <View
-        style={styles.ListContainer}
-      >
-        {!state
-          ? (<Loader />)
-          : <FlatList
-            data={state}
-            keyExtractor={(item) => item._id}
+      <View style={styles.ListContainer}>
+        {isFetching && !tracks.length ? (
+          <Loader />
+        ) : !tracks.length ? (
+          <View style={styles.emptyListContainer}>
+            <Text style={styles.emptyListText}> Add my first Track!</Text>
+            <View style={styles.iconContainer}>
+              <FontAwesome
+                onPress={() => navigation.navigate("TrackCreate")}
+                color={colors.primary}
+                name="plus"
+                size={40}
+              />
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            data={tracks}
+            keyExtractor={item => item._id}
             renderItem={({ item }) => {
-              return <TouchableOpacity onPress={() => navigation.navigate('TrackDetail', { _id: item._id })} >
-                <TrackListItem
-                  title={item.name}
-                  distance={item.distance}
-                />
-              </TouchableOpacity>
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("TrackDetail", { _id: item._id })
+                  }
+                >
+                  <TrackListItem title={item.name} distance={item.distance} />
+                </TouchableOpacity>
+              );
             }}
           />
-        }
+        )}
       </View>
     </>
   );
-
 };
 
 TrackListScreen.navigationOptions = {
   header: null
-}
+};
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: colors.primaryBgColor,
-    flexDirection: 'row-reverse',
+    flexDirection: "row-reverse",
     height: 100,
     paddingBottom: 5,
-    borderBottomWidth: .5,
+    borderBottomWidth: 0.5,
     borderColor: colors.secondary
-
   },
   avatarContainer: {
     paddingHorizontal: padding.sm,
@@ -83,8 +123,8 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 40,
     borderColor: colors.orangeRed,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   },
   textContainer: {
     fontSize: fonts.md,
@@ -93,13 +133,13 @@ const styles = StyleSheet.create({
   },
   header: {
     fontFamily: fonts.primary,
-    fontSize: fonts.md,
-    textAlign: 'right',
+    fontSize: fonts.lg,
+    textAlign: "right",
     color: colors.primary
   },
   rankingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+    flexDirection: "row",
+    justifyContent: "flex-end"
   },
   ranking: {
     fontFamily: fonts.primary,
@@ -114,10 +154,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primaryBgColor
   },
+  emptyListContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  iconContainer: {
+    padding: padding.md
+  },
+  emptyListText: {
+    fontFamily: fonts.primary,
+    fontSize: fonts.md,
+    color: colors.secondary
+  },
   content: {
-    fontFamily: 'Montserrat',
+    fontFamily: "Montserrat",
     fontSize: 20,
-    fontWeight: '700'
+    fontWeight: "700"
   }
 });
 export default TrackListScreen;

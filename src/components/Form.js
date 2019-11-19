@@ -59,7 +59,6 @@ const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText, is
                            </View>
                            <View style={styles.inputContainer} >
                               <TextInput style={styles.input}
-                                 //value={email}
                                  onChangeText={formikProps.handleChange('email')}
                                  onBlur={formikProps.handleBlur('email')}
                                  placeholder="Enter email"
@@ -67,10 +66,10 @@ const Form = ({ error, headerTitle, buttonTitle, submitForm, route, linkText, is
                                  keyboardType="email-address"
                                  returnKeyType="next"
                                  autoCorrect={false}
+                                 autoCapitalize={"none"}
                               />
                               <Text style={{ color: 'red', marginBottom: padding.sm }}> {formikProps.touched.email && formikProps.errors.email} </Text>
                               <TextInput style={styles.input}
-                                 //value={password}
                                  onChangeText={formikProps.handleChange('password')}
                                  onBlur={formikProps.handleBlur('password')}
                                  placeholder="Enter password"

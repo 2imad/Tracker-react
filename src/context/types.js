@@ -1,4 +1,4 @@
-export const ADD_ERROR = 'ADD_ERROR';
+export const ADD_ERROR = "ADD_ERROR";
 export const SIGN_UP = "SIGN_UP";
 export const SIGN_IN = "SIGN_IN";
 export const CLEAR_ERROR = "CLEAR_ERROR";
@@ -14,3 +14,8 @@ export const RECORD_DISTANCE = "RECORD_DISTANCE";
 export const UPDATE_COUNTER = "UPDATE_COUNTER";
 export const TAKE_SNAPSHOT = "TAKE_SNAPSHOT";
 export const SET_LOADING = "SET_LOADING";
+export const IS_FETCHING = "IS_FETCHING";
+export const UPDATE_PROFILE_NAME = "UPDATE_PROFILE_NAME";
+export const CHANGE_PROFILE_NAME = "CHANGE_PROFILE_NAME";
+export const FETCH_PROFILE_NAME = "FETCH_PROFILE_NAME";
+export const FETCH_PROFILE_PHOTO = "FETCH_PROFILE_PHOTO";
