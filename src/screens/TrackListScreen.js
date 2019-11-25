@@ -6,12 +6,13 @@ import {
   FlatList,
   StatusBar
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
 import { NavigationEvents, SafeAreaView } from "react-navigation";
 import { Avatar, Text, Badge } from "react-native-elements";
 import { Context as TrackContext } from "../context/TrackContext";
 import { Context as ProfileContext } from "../context/ProfileContext";
-import hikeAsset from "../../assets/images/hike.png";
+import hiker from "../../assets/images/hiker.jpg";
 import { centerItems } from "../styles/layout";
 import { fonts, colors, margin, padding } from "../styles/base";
 import TrackListItem from "../components/TrackListItem";
@@ -46,11 +47,11 @@ const TrackListScreen = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate("Account")}>
               <Avatar
                 source={{
-                  uri: image
+                  uri: image || null
                 }}
                 size={70}
                 rounded
-                title="MD"
+                title="TR"
                 showEditButton
               />
             </TouchableOpacity>
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     ...centerItems
   },
   header: {
-    fontFamily: fonts.primary,
+    fontFamily: fonts.bold,
     fontSize: fonts.lg,
     textAlign: "right",
     color: colors.primary

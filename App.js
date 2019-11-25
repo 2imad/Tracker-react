@@ -86,7 +86,8 @@ export default class App extends Component {
   }
   _loadFontsAsync = async () => {
     await Font.loadAsync({
-      Montserrat: require("./assets/fonts/Montserrat.ttf")
+      Montserrat: require("./assets/fonts/Montserrat.ttf"),
+      Montserrat_bold: require("./assets/fonts/Montserrat-Bold.ttf")
     });
     this.setState({ loaded: true });
   };
