@@ -17,6 +17,7 @@ import { NavigationEvents } from "react-navigation";
 import BottomTitle from "../components/BottomTitle";
 import { Button, Avatar } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
+import ScrollViewItem from "../components/ScrollViewItem";
 
 const AccountScreen = () => {
   const { signout } = useContext(AuthContext);
@@ -56,11 +57,11 @@ const AccountScreen = () => {
             <TouchableOpacity onPress={pickImage}>
               <Avatar
                 source={{
-                  uri: image
+                  uri: image || null
                 }}
                 size={80}
                 rounded
-                title="MD"
+                title="TR"
                 showEditButton
               />
             </TouchableOpacity>
@@ -68,8 +69,31 @@ const AccountScreen = () => {
         </View>
       </View>
       <View style={styles.latter}>
-        <ScrollView></ScrollView>
-        <Button title="Sing Out" onPress={signout} />
+        <ScrollView>
+          <ScrollViewItem
+            bodyItems={[
+              "Do you like the App? Tell us",
+              "A problem ? contact us "
+            ]}
+            header="Share my experience"
+            last="Share"
+          />
+          <ScrollViewItem
+            bodyItems={["Manage my data", "Save my data"]}
+            header="My account"
+            last={null}
+          />
+          <ScrollViewItem
+            bodyItems={["Terms of Service", "Privacy Policy", "Personal data"]}
+            header="Legal"
+            last={null}
+          />
+          <View style={styles.logoutContainer}>
+            <TouchableOpacity onPress={signout}>
+              <Text style={styles.logoutText}>Sign Out</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -88,11 +112,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   upper: {
+    zIndex: 6,
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "flex-end",
     height: screenHeight / 5,
-    backgroundColor: "#6CD68B"
+    backgroundColor: colors.primaryBgColor
   },
   headerTextContainer: {
     margin: margin.sm
@@ -100,10 +125,9 @@ const styles = StyleSheet.create({
   headerText: {
     paddingHorizontal: padding.md,
     paddingVertical: padding.sm,
-    fontFamily: fonts.primary,
+    fontFamily: fonts.bold,
     fontSize: fonts.md,
-    color: colors.secondary,
-    fontWeight: "700"
+    color: colors.secondary
   },
   latter: {
     flex: 2
@@ -114,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 100,
     height: 100,
-    top: screenHeight / 5 - 45,
+    top: screenHeight / 5 - 50,
     left: 10,
     borderBottomLeftRadius: 100 / 2,
     borderBottomRightRadius: 100 / 2,
@@ -130,7 +154,17 @@ const styles = StyleSheet.create({
     borderRightColor: "#8FB1FE"
   },
   avatarContainer: {
-    zIndex: 2
+    zIndex: 5,
+    elevation: 5
+  },
+  logoutContainer: {
+    padding: padding.md,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  logoutText: {
+    fontFamily: fonts.bold,
+    opacity: 0.6
   }
 });
 export default AccountScreen;
