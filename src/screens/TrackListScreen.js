@@ -91,7 +91,11 @@ const TrackListScreen = ({ navigation }) => {
                     navigation.navigate("TrackDetail", { _id: item._id })
                   }
                 >
-                  <TrackListItem title={item.name} distance={item.distance} />
+                  <TrackListItem
+                    title={item.name}
+                    distance={item.distance}
+                    seconds={item.seconds}
+                  />
                 </TouchableOpacity>
               );
             }}
