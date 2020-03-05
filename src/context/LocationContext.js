@@ -8,7 +8,8 @@ import {
   ADD_LOCATION,
   CHANGE_NAME,
   RESET,
-  RECORD_DISTANCE
+  RECORD_DISTANCE,
+  SAVE_TIME
 } from "./types";
 
 const locationReducer = (state, action) => {
@@ -16,7 +17,7 @@ const locationReducer = (state, action) => {
     case ADD_CURRENT_LOCATION:
       return { ...state, currentLocation: action.payload };
     case START_RECORDING:
-      return { ...state, recording: true };
+      return { ...state, recording: true, timerClear: false };
     case STOP_RECORDING:
       return { ...state, recording: false };
     case ADD_LOCATION:
@@ -32,7 +33,6 @@ const locationReducer = (state, action) => {
       );
       return {
         ...state,
-        seconds: state.seconds + 1,
         locations: [...state.locations, action.payload],
         distance: dist
       };
@@ -43,7 +43,9 @@ const locationReducer = (state, action) => {
     case RECORD_DISTANCE:
       return { ...state, initialLocation: action.payload };
     case TAKE_SNAPSHOT:
-      return { ...state, snapShot: action.payload };
+      return { ...state, snapShot: action.payload, timerClear: true };
+    case SAVE_TIME:
+      return { ...state, timeElapsed: action.payload };
     default:
       return state;
   }
@@ -55,7 +57,10 @@ const takeSnapShot = dispatch => uri => {
 const changeTrackName = dispatch => name => {
   dispatch({ type: CHANGE_NAME, payload: name });
 };
-
+const saveTime = dispatch => timer => {
+  console.log(timer);
+  dispatch({ type: SAVE_TIME, payload: timer });
+};
 const getUIDistance = dispatch => location => {
   dispatch({ type: RECORD_DISTANCE, payload: location });
 };
@@ -78,6 +83,7 @@ const reset = dispatch => () => {
 export const { Context, Provider } = createDataContext(
   locationReducer,
   {
+    saveTime,
     changeTrackName,
     addLocation,
     startRecording,
@@ -87,10 +93,11 @@ export const { Context, Provider } = createDataContext(
     takeSnapShot
   },
   {
-    snapShot: "",
-    seconds: 0,
-    initialLocation: {},
+    timeElapsed: 0,
+    timerClear: false,
     distance: 0,
+    snapShot: "",
+    initialLocation: {},
     name: "",
     locations: [],
     recording: false,

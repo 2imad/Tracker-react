@@ -1,29 +1,22 @@
 import "../_mockLocation";
-import React, {
-  useContext,
-  useCallback,
-  useEffect,
-  useState,
-  useRef
-} from "react";
+import React, { useContext, useCallback, useEffect, useRef } from "react";
 import BottomTitle from "../components/BottomTitle";
-import { colors, fonts } from "../styles/base";
+import { colors } from "../styles/base";
 import { View, StyleSheet } from "react-native";
-import { SafeAreaView, withNavigationFocus } from "react-navigation";
+import { withNavigationFocus } from "react-navigation";
 import { Text } from "react-native-elements";
 import Map from "../components/Map";
 import { Context as LocationContext } from "../context/LocationContext";
 import useLocation from "../hooks/useLocation";
 import TrackForm from "../components/TrackForm";
 import ViewShot from "react-native-view-shot";
-import { sanitizeKms } from "../config/helpers";
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { getCurrentPositionAsync } from "expo-location";
-
+import Timer from "../components/Timer";
 const TrackCreateScreen = ({ isFocused, navigation }) => {
   const full = useRef();
   const {
-    state: { recording, distance, seconds },
+    state: { recording },
     addLocation,
     getUIDistance,
     takeSnapShot
@@ -31,7 +24,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
 
   const callback = useCallback(
     location => {
-      addLocation(location, recording, seconds);
+      addLocation(location, recording);
     },
     [recording]
   );
@@ -47,13 +40,9 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
     }
     _getUserLocation();
   }, []);
+
   const { err } = useLocation(isFocused || recording, callback);
-  const getMinutes = () => {
-    return Math.floor(seconds / 60);
-  };
-  const getSeconds = () => {
-    return ("0" + (seconds % 60)).slice(-2);
-  };
+
   const onCapture = useCallback(async () => {
     const res = await full.current.capture();
     await takeSnapShot(res);
@@ -71,31 +60,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
       </ViewShot>
       {err ? <Text>Please enable location services</Text> : null}
       <View style={styles.formContainer}>
-        <View style={styles.distanceContainer}>
-          <View style={styles.iconHolder}>
-            <Text style={styles.textStyle}>
-              <MaterialCommunityIcons
-                name="run-fast"
-                color={colors.orangeRed}
-                size={40}
-              />
-            </Text>
-            <Text style={styles.valueStyle}>{sanitizeKms(distance)}</Text>
-          </View>
-          <View style={styles.iconHolder}>
-            <Text style={styles.textStyle}>
-              <MaterialCommunityIcons
-                name="timer"
-                color={colors.orangeRed}
-                size={40}
-              />
-            </Text>
-            <Text style={styles.valueStyle}>
-              {getMinutes()}:{getSeconds()}
-              {getMinutes() < 1 ? " s" : " min"}
-            </Text>
-          </View>
-        </View>
+        <Timer />
         <View style={styles.buttonContainer}>
           <TrackForm onCapture={onCapture} />
         </View>
@@ -110,6 +75,10 @@ TrackCreateScreen.navigationOptions = {
   tabBarIcon: <FontAwesome color={colors.primary} name="plus" size={20} />
 };
 const styles = StyleSheet.create({
+  formContainer: {
+    backgroundColor: colors.primaryBgColor,
+    flex: 1
+  },
   backGroundContainer: {
     height: 200,
     borderWidth: 2,
@@ -124,31 +93,12 @@ const styles = StyleSheet.create({
     right: 15,
     elevation: 4
   },
-  distanceContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "flex-end"
-  },
-  formContainer: {
-    backgroundColor: colors.primaryBgColor,
-    flex: 1
-  },
-  valueStyle: {
-    fontSize: fonts.md,
-    color: colors.secondary,
-    fontFamily: fonts.primary
-  },
+
   buttonContainer: {
     flexDirection: "row",
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center"
-  },
-  iconHolder: {
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1
   }
 });
 export default withNavigationFocus(TrackCreateScreen);

@@ -7,17 +7,17 @@ import {
 
 export default (shouldTrack, callback) => {
   const [err, setErr] = useState(null);
-  let [counter, setCounter] = useState(0);
 
   useEffect(() => {
     let subscriber;
+
     const startWatching = async () => {
       try {
         await requestPermissionsAsync();
         subscriber = await watchPositionAsync(
           {
             accuracy: Accuracy.BestForNavigation,
-            timeInterval: 8000,
+            timeInterval: 1000,
             distanceInterval: 60 // updtae every 10 meters
           },
           callback
@@ -41,5 +41,5 @@ export default (shouldTrack, callback) => {
       }
     };
   }, [shouldTrack, callback]);
-  return { err, counter };
+  return { err };
 };

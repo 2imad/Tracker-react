@@ -28,7 +28,7 @@ const createTrack = dispatch => async (
   locations,
   snapShot,
   distance,
-  seconds
+  timeElapsed
 ) => {
   try {
     await trackApi.post("/tracks", {
@@ -36,7 +36,7 @@ const createTrack = dispatch => async (
       locations,
       snapShot,
       distance,
-      seconds
+      timeElapsed
     });
   } catch (error) {
     console.log(error);

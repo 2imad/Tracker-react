@@ -94,7 +94,7 @@ const TrackListScreen = ({ navigation }) => {
                   <TrackListItem
                     title={item.name}
                     distance={item.distance}
-                    seconds={item.seconds}
+                    timeElapsed={item.timeElapsed}
                   />
                 </TouchableOpacity>
               );

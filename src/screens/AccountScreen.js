@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    height: screenHeight / 5,
+    height: screenHeight / 6,
     backgroundColor: colors.primaryBgColor
   },
   headerTextContainer: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 100,
     height: 100,
-    top: screenHeight / 5 - 50,
+    top: screenHeight / 6 - 50,
     left: 10,
     borderBottomLeftRadius: 100 / 2,
     borderBottomRightRadius: 100 / 2,
