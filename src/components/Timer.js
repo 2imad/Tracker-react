@@ -3,49 +3,55 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import { Context as LocationContext } from "../context/LocationContext";
 import { colors, fonts } from "../styles/base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { sanitizeKms } from "../config/helpers";
-import { getTime } from "../config/helpers";
+import { sanitizeKms, getTime } from "../config/helpers";
+import moment from "moment";
 
 const Timer = () => {
   const {
     state: { distance, recording, timerClear },
     saveTime
   } = useContext(LocationContext);
-  let [timer, setTimer] = useState(0);
-  const [running, setRunning] = useState(false);
-  let [time, setTime] = useState(0);
 
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+
+  function toggle() {
+    setIsActive(!isActive);
+  }
   useEffect(() => {
-    const handleTimerStart = () => {
-      const timeNow = Date.now() - timer;
-      if (running) {
-        clearInterval(time);
-        setRunning(false);
-      } else {
-        setTime(
-          (time = setInterval(() => {
-            setTimer((timer = Date.now() - timeNow));
-          }, 0))
-        );
-        setRunning(true);
+    let interval = null;
+    const startTimer = () => {
+      if (isActive) {
+        interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+      } else if (!isActive && seconds !== 0) {
+        clearInterval(interval);
       }
     };
     if (recording) {
-      handleTimerStart();
+      setIsActive(true);
+      startTimer();
     }
-  });
+
+    return () => clearInterval(interval);
+  }, [recording, isActive, seconds]);
+
+  function reset() {
+    setSeconds(0);
+    setIsActive(false);
+  }
 
   useEffect(() => {
     if (timerClear) {
-      handleClear(timer);
+      reset();
     }
-  }, [timerClear]);
+  });
 
-  const handleClear = timer => {
-    saveTime(timer);
-    setRunning(false);
-    setTimer(0);
-    return;
+  const renderTimer = interval => {
+    const duration = moment.duration(interval);
+
+    return `${duration.minutes()}:${duration.seconds()}`;
   };
 
   return (
@@ -69,7 +75,7 @@ const Timer = () => {
               size={40}
             />
           </Text>
-          <Text style={styles.valueStyle}>{getTime(timer)}</Text>
+          <Text style={styles.valueStyle}>{getTime(seconds)} s</Text>
         </View>
       </View>
     </>

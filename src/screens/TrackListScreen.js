@@ -17,6 +17,7 @@ import { centerItems } from "../styles/layout";
 import { fonts, colors, margin, padding } from "../styles/base";
 import TrackListItem from "../components/TrackListItem";
 import Loader from "../components/Loader";
+
 const TrackListScreen = ({ navigation }) => {
   const {
     state: { tracks, isFetching },
@@ -82,6 +83,7 @@ const TrackListScreen = ({ navigation }) => {
           </View>
         ) : (
           <FlatList
+            inverted
             data={tracks}
             keyExtractor={item => item._id}
             renderItem={({ item }) => {
