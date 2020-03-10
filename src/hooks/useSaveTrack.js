@@ -12,6 +12,7 @@ export default () => {
 
   const saveTrack = async () => {
     await createTrack(name, locations, snapShot, distance, timeElapsed);
+    console.log("from save track", locations);
     reset();
     navigate("TrackList");
   };

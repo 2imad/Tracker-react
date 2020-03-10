@@ -17,8 +17,8 @@ export default (shouldTrack, callback) => {
         subscriber = await watchPositionAsync(
           {
             accuracy: Accuracy.BestForNavigation,
-            timeInterval: 1000,
-            distanceInterval: 60 // updtae every 10 meters
+            timeInterval: 6000,
+            distanceInterval: 100 // updtae every 10 meters
           },
           callback
         ); // where addLocation gets triggered

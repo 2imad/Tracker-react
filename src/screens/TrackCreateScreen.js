@@ -1,5 +1,5 @@
 //
-import "../_mockLocation";
+//import "../_mockLocation";
 import React, { useContext, useCallback, useEffect, useRef } from "react";
 import BottomTitle from "../components/BottomTitle";
 import { colors } from "../styles/base";

@@ -21,6 +21,11 @@ const locationReducer = (state, action) => {
     case STOP_RECORDING:
       return { ...state, recording: false };
     case ADD_LOCATION:
+      const coords = {
+        latitude: action.payload.coords.latitude,
+        longitude: action.payload.coords.longitude
+      };
+
       const dist = getDistance(
         {
           latitude: state.initialLocation.coords.latitude,
@@ -33,7 +38,7 @@ const locationReducer = (state, action) => {
       );
       return {
         ...state,
-        locations: [...state.locations, action.payload],
+        locations: [...state.locations, coords],
         distance: dist
       };
     case CHANGE_NAME:
