@@ -83,7 +83,6 @@ const TrackListScreen = ({ navigation }) => {
           </View>
         ) : (
           <FlatList
-            inverted
             data={tracks}
             keyExtractor={item => item._id}
             renderItem={({ item }) => {

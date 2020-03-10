@@ -5,11 +5,6 @@ import { fonts, colors, margin, padding } from "../styles/base";
 import { centerItems } from "../styles/layout";
 import { Entypo } from "@expo/vector-icons";
 import { sanitizeKms } from "../config/helpers";
-import { getTime } from "../config/helpers";
-
-const sanitizeTime = time => {
-  return time <= 60 ? "seconds" : "minutes";
-};
 
 const TrackListItem = ({ title, distance, timeElapsed }) => {
   return (
@@ -35,7 +30,7 @@ const TrackListItem = ({ title, distance, timeElapsed }) => {
         </View>
         <View style={styles.rankingContainer}>
           <Text style={styles.ranking}>Time</Text>
-          <Text style={styles.ranking}>{getTime(timeElapsed)}</Text>
+          <Text style={styles.ranking}>{timeElapsed}</Text>
         </View>
       </View>
       <Entypo style={styles.icon} name="chevron-thin-right" size={20} />

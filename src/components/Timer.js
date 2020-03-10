@@ -3,57 +3,43 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import { Context as LocationContext } from "../context/LocationContext";
 import { colors, fonts } from "../styles/base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { sanitizeKms, getTime } from "../config/helpers";
-import moment from "moment";
+import { sanitizeKms } from "../config/helpers";
+import { Stopwatch } from "react-native-stopwatch-timer";
 
 const Timer = () => {
   const {
     state: { distance, recording, timerClear },
     saveTime
   } = useContext(LocationContext);
+  let [currentTime, setCurrentTime] = useState(0);
+  let [isStopwatchStart, setIsStopwatchStart] = useState(false);
+  let [resetStopwatch, setResetStopwatch] = useState(false);
 
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-
-  function toggle() {
-    setIsActive(!isActive);
-  }
-  useEffect(() => {
-    let interval = null;
-    const startTimer = () => {
-      if (isActive) {
-        interval = setInterval(() => {
-          setSeconds(seconds => seconds + 1);
-        }, 1000);
-      } else if (!isActive && seconds !== 0) {
-        clearInterval(interval);
-      }
-    };
-    if (recording) {
-      setIsActive(true);
-      startTimer();
-    }
-
-    return () => clearInterval(interval);
-  }, [recording, isActive, seconds]);
-
-  function reset() {
-    setSeconds(0);
-    setIsActive(false);
-  }
-
-  useEffect(() => {
-    if (timerClear) {
-      reset();
-    }
-  });
-
-  const renderTimer = interval => {
-    const duration = moment.duration(interval);
-
-    return `${duration.minutes()}:${duration.seconds()}`;
+  const getFormattedTime = time => {
+    setCurrentTime(time);
   };
 
+  const saveCurrentTime = () => {
+    saveTime(currentTime);
+  };
+  useEffect(() => {
+    const clearTimer = () => {
+      if (timerClear) {
+        saveCurrentTime();
+        setResetStopwatch(true);
+      }
+    };
+    const _startStopWatch = () => {
+      if (recording) {
+        setIsStopwatchStart(!isStopwatchStart);
+        setResetStopwatch(false);
+      } else {
+        setIsStopwatchStart(false);
+      }
+    };
+    _startStopWatch();
+    clearTimer();
+  }, [recording, timerClear]);
   return (
     <>
       <View style={styles.distanceContainer}>
@@ -75,18 +61,30 @@ const Timer = () => {
               size={40}
             />
           </Text>
-          <Text style={styles.valueStyle}>{getTime(seconds)} s</Text>
+          <Stopwatch
+            start={isStopwatchStart}
+            reset={resetStopwatch}
+            getTime={getFormattedTime}
+            options={options}
+          />
         </View>
       </View>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  formContainer: {
-    backgroundColor: colors.primaryBgColor,
-    flex: 1
+const options = {
+  container: {
+    backgroundColor: "inherit"
   },
+  text: {
+    fontSize: fonts.md,
+    fontFamily: fonts.primary,
+    color: colors.secondary
+  }
+};
+
+const styles = StyleSheet.create({
   distanceContainer: {
     flex: 1,
     flexDirection: "row",

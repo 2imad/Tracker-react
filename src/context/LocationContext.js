@@ -39,11 +39,15 @@ const locationReducer = (state, action) => {
     case CHANGE_NAME:
       return { ...state, name: action.payload };
     case RESET:
-      return { ...state, name: "", locations: [] };
+      return { ...state, name: "", locations: [], distance: 0 };
     case RECORD_DISTANCE:
       return { ...state, initialLocation: action.payload };
     case TAKE_SNAPSHOT:
-      return { ...state, snapShot: action.payload, timerClear: true };
+      return {
+        ...state,
+        snapShot: action.payload,
+        timerClear: true
+      };
     case SAVE_TIME:
       return { ...state, timeElapsed: action.payload };
     default:
@@ -58,7 +62,6 @@ const changeTrackName = dispatch => name => {
   dispatch({ type: CHANGE_NAME, payload: name });
 };
 const saveTime = dispatch => timer => {
-  console.log(timer);
   dispatch({ type: SAVE_TIME, payload: timer });
 };
 const getUIDistance = dispatch => location => {
@@ -93,7 +96,7 @@ export const { Context, Provider } = createDataContext(
     takeSnapShot
   },
   {
-    timeElapsed: 0,
+    timeElapsed: "",
     timerClear: false,
     distance: 0,
     snapShot: "",
