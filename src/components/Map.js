@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, StyleSheet, ActivityIndicator, View } from "react-native";
 import MapView, { Polyline, Marker } from "react-native-maps";
 import { Context as LocationContaxt } from "../context/LocationContext";
@@ -15,7 +15,7 @@ const Map = () => {
   return (
     <View style={styles.mapContainer}>
       <MapView
-        initialRegion={{
+        region={{
           ...currentLocation.coords,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01

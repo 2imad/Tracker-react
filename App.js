@@ -4,8 +4,6 @@ import BottomTitle from "./src/components/BottomTitle";
 import * as Font from "expo-font";
 import { fonts, colors } from "./src/styles/base";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import createAnimatedSwitchNavigator from "react-navigation-animated-switch";
-import { Transition } from "react-native-reanimated";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import ProfileNameScreen from "./src/screens/ProfileNameScreen";
@@ -29,44 +27,30 @@ const trackListFlow = createStackNavigator({
   TrackDetail: TrackDetailScreen,
   TrackSave: TrackSaveScreen
 });
-const switchNavigator = createAnimatedSwitchNavigator(
-  {
-    ResolveAuth: ResolveAuthScreen,
-    loginFlow: createStackNavigator({
-      Signup: SignupScreen,
-      Profile: ProfileNameScreen,
-      Signin: SigninScreen
-    }),
-    mainFlow: createBottomTabNavigator(
-      {
-        trackListFlow: trackListFlow,
-        TrackCreate: TrackCreateScreen,
-        Account: AccountScreen
-      },
-      {
-        tabBarOptions: {
-          style: {
-            height: 60,
-            backgroundColor: colors.primaryBgColor,
-            paddingTop: 5
-          }
+const switchNavigator = createSwitchNavigator({
+  ResolveAuth: ResolveAuthScreen,
+  loginFlow: createStackNavigator({
+    Signup: SignupScreen,
+    Profile: ProfileNameScreen,
+    Signin: SigninScreen
+  }),
+  mainFlow: createBottomTabNavigator(
+    {
+      trackListFlow: trackListFlow,
+      TrackCreate: TrackCreateScreen,
+      Account: AccountScreen
+    },
+    {
+      tabBarOptions: {
+        style: {
+          height: 60,
+          backgroundColor: colors.primaryBgColor,
+          paddingTop: 5
         }
       }
-    )
-  },
-  {
-    transition: (
-      <Transition.Together>
-        <Transition.Out
-          type="slide-bottom"
-          durationMs={400}
-          interpolation="easeIn"
-        />
-        <Transition.In type="fade" durationMs={500} />
-      </Transition.Together>
-    )
-  }
-);
+    }
+  )
+});
 trackListFlow.navigationOptions = {
   tabBarLabel: ({ focused }) => (
     <BottomTitle isFocused={focused}>Tracks</BottomTitle>

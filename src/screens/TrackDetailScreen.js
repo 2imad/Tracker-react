@@ -10,7 +10,7 @@ const TrackDetailScreen = ({ navigation }) => {
   } = useContext(TrackContext);
   const _id = navigation.getParam("_id");
   const track = tracks.find(t => t._id === _id);
-  console.log(track);
+
   return (
     <>
       <SafeAreaView
@@ -24,8 +24,8 @@ const TrackDetailScreen = ({ navigation }) => {
         <MapView
           initialRegion={{
             ...track.locations[0],
-            latitudeDelta: 0.06,
-            longitudeDelta: 0.06
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.09
           }}
           style={styles.map}
         >

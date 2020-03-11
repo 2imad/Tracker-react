@@ -1,4 +1,4 @@
 export const environment = {
-  development: "http://13c0a2ba.ngrok.io",
+  development: "http://974fef24.ngrok.io",
   production: "https://tracks-server-dev.herokuapp.com/"
 };

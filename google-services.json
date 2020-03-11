@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "433490981920",
+    "firebase_url": "https://tracks-713d7.firebaseio.com",
+    "project_id": "tracks-713d7",
+    "storage_bucket": "tracks-713d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433490981920:android:70ab3d94831daf4ef17845",
+        "android_client_info": {
+          "package_name": "com.youssoufi.tracks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433490981920-otfjng68fr443sirt8q1a2cffe6qfhh1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANSRnO4wh79ovJ6e1b1If9XL1jLi4H9LE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433490981920-otfjng68fr443sirt8q1a2cffe6qfhh1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
