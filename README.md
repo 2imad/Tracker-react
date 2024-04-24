@@ -1,3 +1,5 @@
+## DEPRECATED CODE  NO MAINTENANCE
+
 ## Tracks Hicking/running Native application.
 
 ---
